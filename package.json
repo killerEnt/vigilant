@@ -1,0 +1,8 @@
+{
+  "name": "vigilant-erp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vigilant Integrated Protective Services - All-in-One Agency ERP (static app + MongoDB sync)",
+  "engines": { "node": ">=18" },
+  "dependencies": { "mongodb": "^6.10.0" }
+}
