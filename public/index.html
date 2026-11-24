@@ -66,6 +66,166 @@
       color: #0f172a !important;
       font-weight: 700;
     }
+    /* Mobile-only header toggle stays hidden on tablet/desktop */
+    .mobile-more-checkbox, .mobile-more-btn { display: none; }
+
+    /* ===== MOBILE-ONLY UI FIXES — scoped to max-width:767px so tablet/desktop are untouched ===== */
+    @media (max-width: 767px) {
+      html, body { max-width: 100%; }
+      body {
+        overflow-x: clip;
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+
+      /* --- Slim sticky header + CSS-only collapsible "More" panel --- */
+      header { width: 100% !important; min-width: 0 !important; }
+      header .mobile-title-row > * { min-width: 0; }
+      header > div.max-w-7xl {
+        position: relative !important;
+        padding-top: calc(0.5rem + env(safe-area-inset-top)) !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        gap: 8px !important;
+      }
+      header > div.max-w-7xl.flex { flex-wrap: nowrap !important; }
+      header > div.max-w-7xl > div.flex:first-child { flex-wrap: nowrap !important; flex: 1 1 auto; min-width: 0; }
+      header h1 { font-size: 12.5px !important; line-height: 1.25 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+      header .mobile-header-subtitle { display: none !important; }
+      header .mobile-title-row.flex { flex-direction: column !important; align-items: flex-start !important; flex-wrap: nowrap !important; min-width: 0; gap: 2px !important; }
+      #currentScreenBadge { font-size: 9px !important; padding: 1px 6px !important; max-width: 160px; white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
+      .mobile-more-checkbox { display: none !important; }
+      .mobile-more-btn {
+        display: inline-flex !important;
+        align-items: center; justify-content: center;
+        min-width: 64px; height: 40px; padding: 0 10px;
+        margin-left: auto;
+        border-radius: 10px; background: #1e293b;
+        border: 1px solid #334155; color: #fbbf24;
+        font-weight: 700; font-size: 15px; cursor: pointer;
+        white-space: nowrap;
+      }
+      .header-right-controls {
+        display: none !important;
+        position: absolute !important;
+        top: 100% !important; left: 8px !important; right: 8px !important;
+        z-index: 40;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 12px !important;
+        max-height: calc(100dvh - 72px);
+        overflow-y: auto;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0,0,0,.45);
+      }
+      .mobile-more-checkbox:checked ~ .header-right-controls { display: flex !important; }
+      .header-right-controls > * { width: 100% !important; }
+      .header-right-controls .flex { flex-wrap: wrap !important; }
+      .header-right-controls button,
+      .header-right-controls select,
+      .header-right-controls input { min-height: 40px !important; }
+      #btnResetDemo {
+        order: 99 !important;
+        margin-top: 2px !important;
+        padding-top: 10px !important;
+        border-top: 1px dashed #475569 !important;
+        opacity: 0.85;
+      }
+
+      /* --- Stack every 2-column form/grid; keep Quick Totals at 2 columns --- */
+      .grid-cols-2 { grid-template-columns: minmax(0, 1fr) !important; }
+      #summaryStripSection .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      #summaryStripSection .text-lg { font-size: 15px !important; overflow-wrap: anywhere; }
+      #summaryStripSection p { overflow-wrap: anywhere; word-break: break-word; }
+
+      /* --- Tap targets & 16px inputs (prevents iOS auto-zoom) --- */
+      input:not([type='hidden']):not([type='file']), select, textarea {
+        font-size: 16px !important;
+        min-height: 40px;
+        max-width: 100%;
+      }
+      button { min-height: 40px; }
+
+      /* Let inline control rows wrap instead of forcing the page wider */
+      .flex:not(.flex-nowrap) { flex-wrap: wrap !important; }
+      .flex > * { min-width: 0; }
+      #btnCreateNextMonthHome { max-width: 100%; font-size: 11px !important; text-align: center; line-height: 1.25; }
+      #btnCreateNextMonthHome span { white-space: normal !important; }
+      select { max-width: 100%; }
+
+      /* --- Tables: keep scrolling internal, prevent page-level sideways scroll --- */
+      .overflow-x-auto { max-width: 100%; -webkit-overflow-scrolling: touch; }
+      td { overflow-wrap: anywhere; }
+      th { white-space: nowrap; }
+
+      /* --- Sticky first columns on the 31-day attendance sheet --- */
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(-n+4),
+      .snip-grid-table tbody tr > td:nth-child(-n+4) {
+        position: sticky;
+        z-index: 2;
+        background: #ffffff;
+      }
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(-n+4) { background: #d1fae5; }
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(1),
+      .snip-grid-table tbody td:nth-child(1) { left: 0; width: 28px; min-width: 28px; max-width: 28px; padding-left: 2px !important; padding-right: 2px !important; }
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(2),
+      .snip-grid-table tbody td:nth-child(2) { left: 28px; width: 66px; min-width: 66px; max-width: 66px; padding-left: 3px !important; padding-right: 3px !important; }
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(3),
+      .snip-grid-table tbody td:nth-child(3) { left: 94px; width: 72px; min-width: 72px; max-width: 72px; padding-left: 3px !important; padding-right: 3px !important; }
+      .snip-grid-table thead tr:nth-child(2) > th:nth-child(4),
+      .snip-grid-table tbody td:nth-child(4) { left: 166px; width: 44px; min-width: 44px; max-width: 44px; padding-left: 2px !important; padding-right: 2px !important; }
+      .snip-grid-table tbody td:nth-child(-n+4) select,
+      .snip-grid-table tbody td:nth-child(-n+4) input { font-size: 13px !important; min-height: 34px; padding-left: 1px !important; padding-right: 1px !important; }
+
+      /* --- Invoice / P&L / Balance Sheet amounts: no clipped ₹ values --- */
+      #invoicePreviewCard { overflow-wrap: anywhere; word-break: break-word; }
+      #invoicePreviewCard .text-xl { font-size: 17px !important; }
+      #pnlStatementContainer, #balanceSheetContainer { font-size: 12px; }
+      #pnlStatementContainer .flex.justify-between,
+      #balanceSheetContainer .flex.justify-between { flex-wrap: wrap; gap: 4px; }
+      #pnlStatementContainer span, #balanceSheetContainer span { overflow-wrap: anywhere; }
+
+      /* --- Modals: scroll internally, safe-area aware, keyboard friendly --- */
+      #loginOverlayModal, #conflictAlertModal, #entityModal {
+        height: 100dvh !important;
+        overflow-y: auto !important;
+        align-items: flex-start !important;
+        padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)) !important;
+      }
+      #loginOverlayModal > div, #conflictAlertModal > div, #entityModal > div {
+        margin: auto !important;
+        max-width: 100% !important;
+        padding: 16px !important;
+      }
+      #loginOverlayModal input { font-size: 16px !important; }
+
+      /* --- Left drawer: fit small screens, safe-area aware --- */
+      #leftSideDrawer {
+        width: min(18rem, calc(100vw - 3.5rem)) !important;
+        height: 100dvh !important;
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+
+      /* --- Fixed toast & cloud badge --- */
+      main { padding-bottom: calc(3rem + env(safe-area-inset-bottom)) !important; }
+      #cloudBadge {
+        bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+        left: calc(8px + env(safe-area-inset-left)) !important;
+        max-width: calc(100vw - 90px);
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      #toastBanner {
+        bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+        right: calc(8px + env(safe-area-inset-right)) !important;
+        left: calc(8px + env(safe-area-inset-left));
+      }
+    }
+
     @media print {
       .no-print { display: none !important; }
       .print-only { display: block !important; }
@@ -137,18 +297,22 @@
           &#8942;
         </button>
         <div>
-          <div class="flex items-center gap-2 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap mobile-title-row">
             <h1 class="font-bold text-sm sm:text-base tracking-tight">Vigilant Integrated Protective Services</h1>
             <span id="currentScreenBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
               1. Shift Attendance &amp; Duty Log
             </span>
           </div>
-          <p class="text-[11px] text-slate-400">Click <strong>&#8942; (3 dots)</strong> for Menu • Each month has its own separate 6-tab record with automatic carry-forward</p>
+          <p class="text-[11px] text-slate-400 mobile-header-subtitle">Click <strong>&#8942; (3 dots)</strong> for Menu • Each month has its own separate 6-tab record with automatic carry-forward</p>
         </div>
       </div>
 
+      <!-- Mobile-only compact-header toggle (CSS checkbox hack; no JS, no event listeners) -->
+      <input type="checkbox" id="mobileHeaderMoreToggle" class="mobile-more-checkbox no-print" aria-label="Show more header actions" />
+      <label for="mobileHeaderMoreToggle" class="mobile-more-btn no-print" aria-label="More header actions">&#8942; More</label>
+
       <!-- Right Controls: Separate Month Record Selector (Point 3) + Carry Forward + Exports -->
-      <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex items-center gap-2 flex-wrap header-right-controls">
         <div class="flex items-center gap-1.5 bg-slate-800 border border-amber-500/40 rounded-xl px-2.5 py-1 text-xs">
           <label for="activeMonthPicker" class="text-amber-300 font-bold whitespace-nowrap">📅 Month:</label>
           <select id="activeMonthPicker" class="bg-slate-900 text-white font-bold rounded-lg px-2 py-1 text-xs border border-slate-600 cursor-pointer">
